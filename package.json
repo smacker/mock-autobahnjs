@@ -2,14 +2,23 @@
   "name": "mock-autobahnjs",
   "version": "0.1.0",
   "description": "Wrapper around mock-socket to work with autobahnjs",
+  "keywords": [
+    "websockets",
+    "mock",
+    "mocksocket",
+    "autobahn"
+  ],
   "main": "dist/index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "build": "babel -d dist src/",
-    "test": "karma start"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smacker/mock-autobahnjs.git"
   },
   "author": "Maxim Sukharev",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smacker/mock-autobahnjs/issues"
+  },
+  "homepage": "https://github.com/smacker/mock-autobahnjs#readme",
   "devDependencies": {
     "autobahn": "^0.9.9",
     "babel-cli": "^6.6.5",
@@ -31,5 +40,11 @@
   },
   "dependencies": {
     "mock-socket": "^2.0.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "build": "babel -d dist src/",
+    "test": "karma start",
+    "dist": "npm run lint && npm run test && npm run build"
   }
 }

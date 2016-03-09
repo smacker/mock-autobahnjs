@@ -81,9 +81,7 @@ function newid() {
 
 var AutobahnMockServer = function () {
     function AutobahnMockServer(url, realm) {
-        var _ref = arguments.length <= 2 || arguments[2] === undefined ? { ROLES: ROLES } : arguments[2];
-
-        var roles = _ref.roles;
+        var roles = arguments.length <= 2 || arguments[2] === undefined ? ROLES : arguments[2];
 
         _classCallCheck(this, AutobahnMockServer);
 
@@ -135,6 +133,10 @@ var AutobahnMockServer = function () {
                         _this2._onHello(payload);
                         break;
 
+                    case MSG_TYPE.GOODBYE:
+                        _this2._onGoodbye(payload);
+                        break;
+
                     case MSG_TYPE.SUBSCRIBE:
                         _this2._onSubscribe(payload);
                         break;
@@ -162,6 +164,15 @@ var AutobahnMockServer = function () {
                 authmethod: 'anonymous',
                 x_cb_node_id: 'Test-mocker'
             }]);
+        }
+    }, {
+        key: '_onGoodbye',
+        value: function _onGoodbye(msg) {
+            if (msg[1] === 'wamp.error.goodbye_and_out') {
+                return;
+            }
+
+            this._send([MSG_TYPE.GOODBYE, {}, 'wamp.close.normal']);
         }
     }, {
         key: '_onSubscribe',
