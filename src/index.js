@@ -66,7 +66,7 @@ function newid() {
 }
 
 export default class AutobahnMockServer {
-    constructor(url, realm, { roles } = { ROLES }) {
+    constructor(url, realm, roles = ROLES) {
         this._mockServer = new Server(url);
         this._realm = realm;
         this._roles = roles;
@@ -107,6 +107,10 @@ export default class AutobahnMockServer {
                     this._onHello(payload);
                     break;
 
+                case MSG_TYPE.GOODBYE:
+                    this._onGoodbye(payload);
+                    break;
+
                 case MSG_TYPE.SUBSCRIBE:
                     this._onSubscribe(payload);
                     break;
@@ -136,6 +140,14 @@ export default class AutobahnMockServer {
                 x_cb_node_id: 'Test-mocker'
             }
         ]);
+    }
+
+    _onGoodbye(msg) {
+        if (msg[1] === 'wamp.error.goodbye_and_out') {
+            return;
+        }
+
+        this._send([MSG_TYPE.GOODBYE, {}, 'wamp.close.normal'])
     }
 
     _onSubscribe(msg) {
